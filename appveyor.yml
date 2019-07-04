@@ -10,6 +10,11 @@ build: off
 # Version number
 version: 1.0.0.{build}
 
+# Only build the master branch
+branches:
+  only:
+    - master
+
 # Ignore testing a commit if only the README.md file changed
 # Or if various strings are found in the commit message: updated readme, update readme, update docs, update version, update appveyor
 skip_commits:
@@ -21,7 +26,7 @@ skip_commits:
 pull_requests:
   do_not_increment_build_number: true
 
-#Publish to PowerShell Gallery with this key
+# Publish to PowerShell Gallery with this key
 environment:
   NuGetApiKey:
     secure: {NUGETAPIKEY}
@@ -44,5 +49,5 @@ test_script:
   - git config --global user.name "First Last"
   - git config --global core.autocrlf true
   - git config --global core.safecrlf false
-  - ps: write-host "calling build.ps1"
+  - ps: Write-Host -Object "calling build.ps1"
   - ps: . .\build.ps1
