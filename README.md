@@ -55,7 +55,3 @@ and add it to appveyor.yml by replaceing `{GITHUB_PERSONAL_ACCESS_TOKEN}`.
 8. AppVeyor will now monitor your master branch and deploy a new version to
 the [PowerShell Gallery](https://www.powershellgallery.com)
 when it detects a new commit.
-
-Instead of adding the API key and GitHub access token to the appveyor.yml,
-you might be able to simply create two environment variables in the project's
-Settings --> Environment in the section *Environment variables*.
