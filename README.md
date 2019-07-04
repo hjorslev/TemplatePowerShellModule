@@ -47,11 +47,11 @@ AppVeyor is free for open source projects.
 3. [Create new project at AppVeyor](https://ci.appveyor.com/projects)
 4. [Create API-key at PS Gallery](https://www.powershellgallery.com/account/apikeys)
 5. [Encrypt API-key at AppVeyor](https://ci.appveyor.com/tools/encrypt)
-and add it to appveyor.yml by replaceing `{NUGETAPIKEY}`.
+and add it to appveyor.yml by replacing `{NUGETAPIKEY}`.
 6. [Create Personal access tokens at GitHub](https://github.com/settings/tokens)
 with scope to edit repos.
 7. [Encrypt token at AppVeyor](https://ci.appveyor.com/tools/encrypt)
-and add it to appveyor.yml by replaceing `{GITHUB_PERSONAL_ACCESS_TOKEN}`.
+and add it to appveyor.yml by replacing `{GITHUB_PERSONAL_ACCESS_TOKEN}`.
 8. AppVeyor will now monitor your master branch and deploy a new version to
 the [PowerShell Gallery](https://www.powershellgallery.com)
 when it detects a new commit.
