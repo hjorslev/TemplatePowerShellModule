@@ -1,6 +1,6 @@
 site_name: TemplatePowerShellModule
 site_author: ''
-docs_dir: 'mddocs'
+docs_dir: 'md-docs'
 site_dir: 'docs'
 use_directory_urls: false
 theme:
