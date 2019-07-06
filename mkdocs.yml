@@ -1,5 +1,5 @@
-site_name: PowerShell4CBS
-site_author: 'fhp.it'
+site_name: TemplatePowerShellModule
+site_author: ''
 docs_dir: 'docs'
 site_dir: 'docs/html'
 use_directory_urls: false
