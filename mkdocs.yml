@@ -1,7 +1,7 @@
 site_name: TemplatePowerShellModule
 site_author: ''
 docs_dir: 'docs'
-site_dir: 'docs/html'
+site_dir: 'webdocs'
 use_directory_urls: false
 theme:
   name: 'readthedocs'
