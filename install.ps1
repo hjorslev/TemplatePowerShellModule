@@ -7,14 +7,14 @@ Write-Host -Object ''
 
 # Install package providers for PowerShell Modules
 foreach ($Provider in $PackageProviders) {
-    If (-not (Get-PackageProvider $Provider -ErrorAction SilentlyContinue)) {
+    if (-not (Get-PackageProvider $Provider -ErrorAction SilentlyContinue)) {
         Install-PackageProvider $Provider -Force -ForceBootstrap -Scope CurrentUser
     }
 }
 
 # Install the PowerShell Modules
 foreach ($Module in $PowerShellModules) {
-    If (-not (Get-Module -ListAvailable $Module -ErrorAction SilentlyContinue)) {
+    if (-not (Get-Module -ListAvailable $Module -ErrorAction SilentlyContinue)) {
         Install-Module $Module -Scope CurrentUser -Force -Repository PSGallery
     }
     Import-Module $Module
