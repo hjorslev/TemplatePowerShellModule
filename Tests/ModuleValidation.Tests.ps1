@@ -3,7 +3,7 @@ $ModuleRoot = Split-Path (Resolve-Path "$($ProjectRoot)/*/*.psm1")
 $ModuleName = Split-Path $ModuleRoot -Leaf
 
 $PublicFiles = @(Get-ChildItem -Path "$($ProjectRoot)\Public\*.ps1" -ErrorAction SilentlyContinue)
-$ModuleInformation = Import-Metadata -Path "$($ProjectRoot)\$($ModuleName)\$($ModuleName).psd1"
+$ModuleInformation = Import-Metadata -Path "$($ProjectRoot)\$($ModuleName)\$($ModuleName).psd1" # Cmdlet from module Configuration.
 
 Describe "General project validation: $($ModuleName)" {
     $FileSearch = @{
