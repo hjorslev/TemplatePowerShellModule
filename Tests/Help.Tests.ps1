@@ -50,7 +50,7 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
 
             # Examples
             it "Example - Count should be greater than 0" {
-                $Help.Examples.Example.code.Count | Should BeGreaterthan 0
+                $Help.Examples.Example.Code.Count | Should BeGreaterthan 0
             }
 
             # Examples - Remarks (small description that comes with the example)
