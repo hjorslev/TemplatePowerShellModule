@@ -1,5 +1,6 @@
 $ModuleAuthorName = 'First Last'
 $ModuleName = 'TemplatePowerShellModule'
+$GitHubOwnerName = ''
 
 # Line break for readability in AppVeyor console
 Write-Host -Object ''
@@ -73,6 +74,13 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         Write-Warning -Message "Publishing update $NewVersion to the PowerShell Gallery failed."
         throw $_
     }
+
+    # Get latest changelog
+    $ChangeLog = Get-Content -Path '.\CHANGELOG.md'
+    $ChangeLog = $ChangeLog.Where( { $_ -eq $ChangeLog[7] }, 'SkipUntil')
+    $ChangeLog = $ChangeLog.Where( { $_ -eq ($ChangeLog | Select-String -Pattern "## \[" | Select-Object -Skip 1 -First 1) }, 'Until')
+
+    New-GitHubRelease -Owner $GitHubOwnerName -RepositoryName $ModuleName -TagName "v$($NewVersion)" -name "v$($NewVersion) Release of $($ModuleName)" -ReleaseNote $ChangeLog -Token $env:GitHubKey
 
     # Publish the new version back to Master on GitHub
     try {
