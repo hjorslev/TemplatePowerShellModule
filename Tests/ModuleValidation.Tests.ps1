@@ -58,5 +58,9 @@ Describe "General project validation: $($ModuleName)" {
             # Expects that the latest version is located at line 8.
             $ChangeLog = [version]((Get-Content -Path '.\CHANGELOG.md')[7]).Substring(4, 5) | Should -BeGreaterThan (Test-ModuleManifest -Path ".\$($ModuleName)\$($ModuleName).psd1").Version
         }
+
+        It "Should not be Unreleased" {
+            ((Get-Content -Path '.\CHANGELOG.md')[7]).Substring(13) | Should -not -BeExactly 'Unreleased'
+        }
     } # Context: Changelog
 }# Describe
