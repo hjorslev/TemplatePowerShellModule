@@ -75,9 +75,11 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         throw $_
     }
 
-    # Get latest changelog
+    # Get latest changelog and publish it to GitHub Releases.
     $ChangeLog = Get-Content -Path '.\CHANGELOG.md'
+    # Expect that the latest changelog info is located at line 8.
     $ChangeLog = $ChangeLog.Where( { $_ -eq $ChangeLog[7] }, 'SkipUntil')
+    # Grab all text until next heading that starts with ## [.
     $ChangeLog = $ChangeLog.Where( { $_ -eq ($ChangeLog | Select-String -Pattern "## \[" | Select-Object -Skip 1 -First 1) }, 'Until')
 
     New-GitHubRelease -Owner $GitHubOwnerName -RepositoryName $ModuleName -TagName "v$($NewVersion)" -name "v$($NewVersion) Release of $($ModuleName)" -ReleaseNote $ChangeLog -Token $env:GitHubKey
