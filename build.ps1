@@ -68,10 +68,10 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         }
 
         Publish-Module @PM
-        Write-Host -Object "$ModuleName PowerShell Module version $NewVersion published to the PowerShell Gallery." -ForegroundColor Cyan
+        Write-Host -Object "$($ModuleName) PowerShell Module version $($NewVersion) published to the PowerShell Gallery." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
-        Write-Warning -Message "Publishing update $NewVersion to the PowerShell Gallery failed."
+        Write-Warning -Message "Publishing update $($NewVersion) to the PowerShell Gallery failed."
         throw $_
     }
 
@@ -93,12 +93,12 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         git checkout master
         git add --all
         git status
-        git commit -s -m "Update version to $NewVersion"
+        git commit -s -m "Update version to $($NewVersion)"
         git push origin master
-        Write-Host -Object "$ModuleName PowerShell Module version $NewVersion published to GitHub." -ForegroundColor Cyan
+        Write-Host -Object "$($ModuleName) PowerShell Module version $($NewVersion) published to GitHub." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
-        Write-Warning "Publishing update $NewVersion to GitHub failed."
+        Write-Warning "Publishing update $($NewVersion) to GitHub failed."
         throw $_
     }
 }

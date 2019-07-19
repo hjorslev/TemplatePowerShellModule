@@ -13,7 +13,7 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
         # Retrieve the Help of the function
         $Help = Get-Help -Name $Function -Full
 
-        $Notes = ($Help.alertSet.Alert.Text -split '\n')
+        $Notes = ($Help.AlertSet.Alert.Text -split '\n')
 
         # Parse the function using AST
         $AST = [System.Management.Automation.Language.Parser]::ParseInput((Get-Content function:$Function), [ref]$null, [ref]$null)
@@ -33,14 +33,14 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
             $ASTParameters = $ast.ParamBlock.Parameters.Name.VariablePath.UserPath
 
             It "Parameter - Compare Count Help/AST" {
-                $HelpParameters.Name.Count -eq $ASTParameters.Count | Should Be $true
+                $HelpParameters.Name.Count -eq $ASTParameters.Count | Should -Be $true
             }
 
             # Parameter Description
             If (-not [String]::IsNullOrEmpty($ASTParameters)) {
                 # IF ASTParameters are found
                 $HelpParameters | ForEach-Object {
-                    It "Parameter $($_.Name) - Should contains description" {
+                    It "Parameter $($_.Name) - Should contain description" {
                         $_.Description | Should -not -BeNullOrEmpty
                     }
                 }
@@ -57,6 +57,6 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
                     $Example.Remarks | Should -not -BeNullOrEmpty
                 }
             }
-        }
-    }
-}
+        } # Context: $Function - Help
+    } # foreach
+} # Describe
