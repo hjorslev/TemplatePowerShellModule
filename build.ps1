@@ -1,3 +1,6 @@
+[CmdletBinding()]
+Param ()
+
 $ModuleAuthorName = 'First Last'
 $ModuleName = 'TemplatePowerShellModule'
 $GitHubOwnerName = ''

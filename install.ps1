@@ -1,3 +1,6 @@
+[CmdletBinding()]
+Param ()
+
 [string[]]$PowerShellModules = @('Pester', 'posh-git', 'platyPS', 'InvokeBuild', 'PSScriptAnalyzer', 'Configuration', 'PSGitHub')
 [string[]]$PackageProviders = @('NuGet', 'PowerShellGet')
 [string[]]$ChocolateyPackages = @('mkdocs')
