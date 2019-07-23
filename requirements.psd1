@@ -29,4 +29,5 @@
     'posh-git'          = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'PSGitHub'          = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
     'PSScriptAnalyzer'  = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
+    'powershell-yaml'   = @{ DependencyType = 'PSGalleryNuget'; version = 'latest' }
 }

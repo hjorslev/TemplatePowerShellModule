@@ -6,6 +6,8 @@ Write-Host -Object ''
 
 Set-BuildEnvironment -ErrorAction SilentlyContinue
 
+Get-Item env:BH*
+
 # Make sure we're using the Master branch and that it's not a pull request
 # Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
 if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
@@ -20,7 +22,7 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         $Manifest = Test-ModuleManifest -Path $env:BHPSModuleManifest
         [System.Version]$Version = $Manifest.Version
         Write-Output -InputObject "Old Version: $Version"
-        [String]$NewVersion = New-Object -TypeName System.Version -ArgumentList ($Version.Major, $Version.Minor, $env:APPVEYOR_BUILD_NUMBER)
+        $NewVersion = Step-Version -Version $Version
         Write-Output -InputObject "New Version: $NewVersion"
 
         # Update the manifest with the new version value.
