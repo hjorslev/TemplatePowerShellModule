@@ -1,4 +1,4 @@
-site_name: TemplatePowerShellModule
+site_name: ModuleName
 site_author: ''
 docs_dir: 'md-docs'
 site_dir: 'docs'

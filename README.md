@@ -24,19 +24,7 @@ and deploys the module to the [PowerShell Gallery](https://www.powershellgallery
 
 ### Change variables
 
-Change the following variables
-
-```powershell
-$ModuleAuthorName = 'First Last'
-$ModuleName = 'TemplatePowerShellModule'
-```
-
-in these files
-
-- TemplatePowerShellModule\ModuleName.psd1
-- build.ps1
-
-Furthermore, change the name in *LICENSE.md* if you plan using it.
+Change the name in *LICENSE.md* if you plan using it.
 
 ### Building with AppVeyor and deploy to PS Gallery
 

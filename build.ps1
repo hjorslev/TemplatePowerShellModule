@@ -1,12 +1,10 @@
 [CmdletBinding()]
 Param ()
 
-$ModuleAuthorName = 'First Last'
-$ModuleName = 'TemplatePowerShellModule'
-$GitHubOwnerName = ''
-
 # Line break for readability in AppVeyor console
 Write-Host -Object ''
+
+Set-BuildEnvironment -ErrorAction SilentlyContinue
 
 # Make sure we're using the Master branch and that it's not a pull request
 # Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
@@ -18,39 +16,38 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     # We're going to add 1 to the revision value since a new commit has been merged to Master
     # This means that the major / minor / build values will be consistent across GitHub and the Gallery
     try {
-        # This is where the module manifest lives
-        $ManifestPath = ".\$ModuleName\$ModuleName.psd1"
-
         # Start by importing the manifest to determine the version, then add 1 to the revision
-        $Manifest = Test-ModuleManifest -Path $ManifestPath
+        $Manifest = Test-ModuleManifest -Path $env:BHPSModuleManifest
         [System.Version]$Version = $Manifest.Version
         Write-Output -InputObject "Old Version: $Version"
         [String]$NewVersion = New-Object -TypeName System.Version -ArgumentList ($Version.Major, $Version.Minor, $env:APPVEYOR_BUILD_NUMBER)
         Write-Output -InputObject "New Version: $NewVersion"
 
-        # Update the manifest with the new version value and fix the weird string replace bug
-        $FunctionList = ((Get-ChildItem -Path .\$ModuleName\Public).BaseName)
+        # Update the manifest with the new version value.
+        $FunctionList = ((Get-ChildItem -Path ".\$($env:BHProjectName)\Public").BaseName)
         $Splat = @{
-            'Path'              = $ManifestPath
+            'Path'              = $env:BHPSModuleManifest
             'ModuleVersion'     = $NewVersion
             'FunctionsToExport' = $FunctionList
-            'Copyright'         = "(c) 2019-$( (Get-Date).Year ) $ModuleAuthorName. All rights reserved."
+            'Copyright'         = "(c) 2019-$( (Get-Date).Year ) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
         }
 
         Update-ModuleManifest @Splat
 
-        (Get-Content -Path $ManifestPath) -replace "PSGet_$ModuleName", "$ModuleName" | Set-Content -Path $ManifestPath
-        (Get-Content -Path $ManifestPath) -replace 'NewManifest', $ModuleName | Set-Content -Path $ManifestPath
-        (Get-Content -Path $ManifestPath) -replace 'FunctionsToExport = ', 'FunctionsToExport = @(' | Set-Content -Path $ManifestPath -Force
-        (Get-Content -Path $ManifestPath) -replace "$($FunctionList[-1])'", "$($FunctionList[-1])')" | Set-Content -Path $ManifestPath -Force
+        # Update functions to export.
+        Set-ModuleFunction
+
     } catch {
         throw $_
     }
 
     # Create new markdown and XML help files
     Write-Host -Object "Building new function documentation" -ForegroundColor Yellow
-    Import-Module -Name "$PSScriptRoot\$ModuleName" -Force
-    New-MarkdownHelp -Module $ModuleName -OutputFolder '.\md-docs\' -Force
+    if ((Test-Path -Path "$($env:BHProjectPath)\docs") -eq $false) {
+        New-Item -Path $env:BHProjectPath -Name 'docs' -ItemType Directory
+    }
+    Import-Module -Name "$env:BHProjectPath\$($env:BHProjectName)" -Force
+    New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\md-docs\' -Force
     New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force
     Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
     Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
@@ -65,13 +62,13 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     try {
         # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
         $PM = @{
-            Path        = ".\$ModuleName"
+            Path        = ".\$($env:BHProjectName)"
             NuGetApiKey = $env:NuGetApiKey
             ErrorAction = 'Stop'
         }
 
         Publish-Module @PM
-        Write-Host -Object "$($ModuleName) PowerShell Module version $($NewVersion) published to the PowerShell Gallery." -ForegroundColor Cyan
+        Write-Host -Object "$($env:BHProjectName) PowerShell Module version $($NewVersion) published to the PowerShell Gallery." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
         Write-Warning -Message "Publishing update $($NewVersion) to the PowerShell Gallery failed."
@@ -85,7 +82,7 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
     # Grab all text until next heading that starts with ## [.
     $ChangeLog = $ChangeLog.Where( { $_ -eq ($ChangeLog | Select-String -Pattern "## \[" | Select-Object -Skip 1 -First 1) }, 'Until')
 
-    New-GitHubRelease -Owner $GitHubOwnerName -RepositoryName $ModuleName -TagName "v$($NewVersion)" -name "v$($NewVersion) Release of $($ModuleName)" -ReleaseNote $ChangeLog -Token $env:GitHubKey
+    #TODO New-GitHubRelease -Owner $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName CompanyName) -RepositoryName $($env:BHProjectName) -TagName "v$($NewVersion)" -name "v$($NewVersion) Release of $($($env:BHProjectName))" -ReleaseNote $ChangeLog -Token ($env:GitHubKey)
 
     # Publish the new version back to Master on GitHub
     try {
@@ -98,7 +95,7 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         git status
         git commit -s -m "Update version to $($NewVersion)"
         git push origin master
-        Write-Host -Object "$($ModuleName) PowerShell Module version $($NewVersion) published to GitHub." -ForegroundColor Cyan
+        Write-Host -Object "$($env:BHProjectName) PowerShell Module version $($NewVersion) published to GitHub." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
         Write-Warning "Publishing update $($NewVersion) to GitHub failed."

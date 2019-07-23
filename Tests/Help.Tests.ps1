@@ -1,13 +1,9 @@
 ﻿# https://lazywinadmin.com/2016/05/using-pester-to-test-your-comment-based.html
 
-$ProjectRoot = Resolve-Path "$($PSScriptRoot)/.."
-$ModuleRoot = Split-Path (Resolve-Path "$($ProjectRoot)/*/*.psm1")
-$ModuleName = Split-Path $ModuleRoot -Leaf
-
-Import-Module $ModuleRoot
+Import-Module "$($env:BHModulePath)\$($env:BHProjectName).psm1"
 
 Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
-    $FunctionsList = (Get-ChildItem "$($ModuleRoot)\Public").BaseName
+    $FunctionsList = (Get-ChildItem -Path "$($env:BHModulePath)\Public").BaseName
 
     foreach ($Function in $FunctionsList) {
         # Retrieve the Help of the function
@@ -48,7 +44,7 @@ Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
 
             # Examples
             it "Example - Count should be greater than 0" {
-                $Help.Examples.Example.Code.Count | Should BeGreaterthan 0
+                $Help.Examples.Example.Code.Count | Should -BeGreaterThan 0
             }
 
             # Examples - Remarks (small description that comes with the example)
