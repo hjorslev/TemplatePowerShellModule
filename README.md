@@ -34,6 +34,8 @@ and deploys the module to the [PowerShell Gallery](https://www.powershellgallery
 
 Change the name in *LICENSE.md* if you plan using it.
 
+Change site_name, author etc. in *mkdocs.yml*.
+
 ### Building with AppVeyor and deploy to PS Gallery
 
 AppVeyor is free for open source projects.
