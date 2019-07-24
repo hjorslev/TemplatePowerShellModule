@@ -6,8 +6,6 @@ Write-Host -Object ''
 
 Set-BuildEnvironment -ErrorAction SilentlyContinue
 
-Get-Item env:BH*
-
 # Make sure we're using the Master branch and that it's not a pull request
 # Environmental Variables Guide: https://www.appveyor.com/docs/environment-variables/
 if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
@@ -24,6 +22,10 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
         Write-Output -InputObject "Old Version: $Version"
         $NewVersion = Step-Version -Version $Version
         Write-Output -InputObject "New Version: $NewVersion"
+        $AppVeyor = ConvertFrom-Yaml $(Get-Content "$($env:BHProjectPath)\appveyor.yml" | Out-String)
+        $UpdateAppVeyor = $AppVeyor.GetEnumerator() | Where-Object { $_.Name -eq 'version' }
+        $UpdateAppVeyor | ForEach-Object { $AppVeyor[$_.Key] = "$($NewVersion).{build}" }
+        ConvertTo-Yaml -Data $AppVeyor -OutFile "$($env:BHProjectPath)\appveyor.yml" -Force
 
         # Update the manifest with the new version value.
         $FunctionList = ((Get-ChildItem -Path ".\$($env:BHProjectName)\Public").BaseName)
