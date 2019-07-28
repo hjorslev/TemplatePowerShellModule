@@ -1,4 +1,5 @@
-﻿$PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1 -Exclude 'build.ps1', 'install.ps1', 'psake.ps1'
+﻿$ScriptAnalyzerRules = Get-ScriptAnalyzerRule
+$PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1 -Exclude 'build.ps1', 'install.ps1', 'psake.ps1'
 $ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression'
 
 foreach ($PowerShellFile in $PowerShellFiles) {
