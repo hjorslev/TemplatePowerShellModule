@@ -1,16 +1,13 @@
 # TemplatePowerShellModule
 
-## Released / master branch
+## Module Status
 
-[![Build status](https://img.shields.io/appveyor/ci/SET_USERNAME/SET_REPONAME.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME)
-[![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/SET_USERNAME/SET_REPONAME.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME/build/tests)
-[![PowerShellGallery Version](https://img.shields.io/powershellgallery/v/SET_REPONAME.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SET_REPONAME)
-[![PowerShellGallery Downloads](https://img.shields.io/powershellgallery/dt/SET_REPONAME.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SET_REPONAME)
-
-## Dev branch
-
-[![Build status](https://img.shields.io/appveyor/ci/SET_USERNAME/SET_REPONAME/dev.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME)
-[![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/SET_USERNAME/SET_REPONAME/dev.svg?style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME/build/tests)
+[![AppVeyor master](https://img.shields.io/appveyor/ci/SET_USERNAME/SET_REPONAME/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME)
+[![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/SET_USERNAME/SET_REPONAME/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME/build/tests)
+[![AppVeyor dev](https://img.shields.io/appveyor/ci/SET_USERNAME/SET_REPONAME/DEV?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME)
+[![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/SET_USERNAME/SET_REPONAME/dev?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME/build/tests)
+[![PowerShell Version](https://img.shields.io/powershellgallery/v/SET_REPONAME.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SET_REPONAME)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SET_REPONAME?style=for-the-badge)](https://www.powershellgallery.com/packages/SET_REPONAME)
 
 ## TemplatePowerShellModule Title
 
