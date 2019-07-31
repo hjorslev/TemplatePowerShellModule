@@ -1,7 +1,7 @@
 ﻿@{
     # Some defaults for all dependencies
     PSDependOptions    = @{
-        Target     = '$ENV:USERPROFILE\Documents\WindowsPowerShell\Modules'
+        Target     = '$env:USERPROFILE\Documents\WindowsPowerShell\Modules'
         AddToPath  = $true
         Parameters = @{
             Force = $true
