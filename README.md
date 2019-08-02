@@ -6,7 +6,7 @@
 [![AppVeyor tests (master)](https://img.shields.io/appveyor/tests/SET_USERNAME/SET_REPONAME/master?label=MASTER&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME/build/tests)
 [![AppVeyor dev](https://img.shields.io/appveyor/ci/SET_USERNAME/SET_REPONAME/DEV?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME)
 [![AppVeyor tests (dev)](https://img.shields.io/appveyor/tests/SET_USERNAME/SET_REPONAME/dev?label=DEV&logo=appveyor&style=for-the-badge)](https://ci.appveyor.com/project/SET_USERNAME/SET_REPONAME/build/tests)
-[![PowerShell Version](https://img.shields.io/powershellgallery/v/SET_REPONAME.svg?style=for-the-badge)](https://www.powershellgallery.com/packages/SET_REPONAME)
+[![PowerShell Version](https://img.shields.io/powershellgallery/v/SET_REPONAME.svg?style=for-the-badge&logo=PowerShell)](https://www.powershellgallery.com/packages/SET_REPONAME)
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/SET_REPONAME?style=for-the-badge)](https://www.powershellgallery.com/packages/SET_REPONAME)
 
 ## TemplatePowerShellModule Title
@@ -30,8 +30,6 @@ and deploys the module to the [PowerShell Gallery](https://www.powershellgallery
 ### Change variables
 
 Change the name in *LICENSE.md* if you plan using it.
-
-Change site_name, author etc. in *mkdocs.yml*.
 
 ### Building with AppVeyor and deploy to PS Gallery
 
