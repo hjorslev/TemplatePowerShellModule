@@ -30,8 +30,8 @@ if ($env:BHBranchName -ne 'master') {
     # This means that the major / minor / build values will be consistent across GitHub and the Gallery
     try {
         # Get current module version from Manifest.
-        $Manifest = Test-ModuleManifest -Path $env:BHPSModuleManifest
-        [version]$Version = $Manifest.Version
+        $Manifest = Import-PowerShellDataFile -Path $env:BHPSModuleManifest
+        [version]$Version = $Manifest.ModuleVersion
         Write-Output -InputObject "Old Version: $Version"
 
         switch -Wildcard ($env:BHCommitMessage) {
