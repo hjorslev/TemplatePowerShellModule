@@ -31,6 +31,8 @@ and deploys the module to the [PowerShell Gallery](https://www.powershellgallery
 
 Change the name in *LICENSE.md* if you plan using it.
 
+Adjust Manifest.
+
 ### Building with AppVeyor and deploy to PS Gallery
 
 AppVeyor is free for open source projects.
@@ -48,3 +50,11 @@ and add it to appveyor.yml by replacing `{GITHUB_PERSONAL_ACCESS_TOKEN}`.
 8. AppVeyor will now monitor your master branch and deploy a new version to
 the [PowerShell Gallery](https://www.powershellgallery.com)
 when it detects a new commit.
+
+### Change version
+
+Patch version is changed when merging with master branch.
+
+Major version can be changed by writing `!ver:MAJOR*` in the commit message.
+
+Minor version can be changed by writing `!ver:MINOR*` in the commit message.
