@@ -52,7 +52,7 @@ if ($env:BHBranchName -ne 'master') {
         }
 
         Write-Output -InputObject "New Version: $NewVersion"
-        $AppVeyor = ConvertFrom-Yaml $(Get-Content "$($env:BHProjectPath)\appveyor.yml" | Out-String)
+        $AppVeyor = ConvertFrom-Yaml -Yaml $(Get-Content "$($env:BHProjectPath)\appveyor.yml" | Out-String)
         $UpdateAppVeyor = $AppVeyor.GetEnumerator() | Where-Object { $_.Name -eq 'version' }
         $UpdateAppVeyor | ForEach-Object { $AppVeyor[$_.Key] = "$($NewVersion).{build}" }
         ConvertTo-Yaml -Data $AppVeyor -OutFile "$($env:BHProjectPath)\appveyor.yml" -Force
