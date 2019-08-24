@@ -8,16 +8,16 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule        = "ModuleName.psm1"
+    RootModule        = 'ModuleName.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.1.0'
+    ModuleVersion     = '0.0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
 
     # ID used to uniquely identify this module
-    GUID              = '659f4ea4-6106-4955-a525-01a2ebfca7f9'
+    GUID              = ''
 
     # Author of this module
     Author            = ''
@@ -26,10 +26,10 @@
     CompanyName       = ''
 
     # Copyright statement for this module
-    Copyright         = "(c) 2019 FIRST LAST. All rights reserved."
+    Copyright         = '(c) 2019 FIRST LAST. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = "Module Description"
+    Description       = 'Module Description'
 
     # Minimum version of the Windows PowerShell engine required by this module
     # PowerShellVersion = ''
@@ -97,16 +97,16 @@
             Tags         = @('', '')
 
             # A URL to the license for this module.
-            LicenseUri   = ""
+            LicenseUri   = ''
 
             # A URL to the main website for this project.
-            ProjectUri   = ""
+            ProjectUri   = ''
 
             # A URL to an icon representing this module.a
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = ""
+            ReleaseNotes = ''
 
         } # End of PSData hashtable
 
