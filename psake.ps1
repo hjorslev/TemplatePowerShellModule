@@ -1,13 +1,6 @@
 ﻿# PSake makes variables declared here available in other scriptblocks
 # Init some things
 Properties {
-    # Find the build folder based on build system
-    $ProjectRoot = $env:BHProjectPath
-    if (-not $ProjectRoot) {
-        $ProjectRoot = $PSScriptRoot
-    }
-    $ProjectRoot = Convert-Path $ProjectRoot
-
     try {
         $script:IsWindows = (-not (Get-Variable -Name IsWindows -ErrorAction Ignore)) -or $IsWindows
         $script:IsLinux = (Get-Variable -Name IsLinux -ErrorAction Ignore) -and $IsLinux
@@ -28,15 +21,16 @@ Task Init {
     # Line break for readability in AppVeyor console
     Write-Host -Object ''
     Write-Host -Object 'Build System Details:'
+    Write-Output -InputObject $PSVersionTable
     Get-Item env:BH*
-    Write-Output -InputObject "`n"
+    Write-Host -Object "`n"
 }
 
 Task Test -Depends Init {
     # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
     # If any of the tests fail, consider the pipeline failed
     $PesterResults = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile ".\Tests\TestsResults.xml" -PassThru
-    Add-TestResultToAppveyor -TestFile "$($env:BHProjectPath)\Tests\TestsResults.xml"
+    Add-TestResultToAppveyor -TestFile "$($env:BHProjectPath)\Tests\TestsResults.xml" @Verbose
     if ($PesterResults.FailedCount -gt 0) {
         throw "$($PesterResults.FailedCount) tests failed."
     }
@@ -78,29 +72,37 @@ Task Build -Depends Test {
         ConvertTo-Yaml -Data $AppVeyor -OutFile "$($env:BHProjectPath)\appveyor.yml" -Force
 
         # Update FunctionsToExport in Manifest.
-        Set-ModuleFunction
+        Set-ModuleFunction @Verbose
+        Get-ModuleFunction
 
         # Update copyright notice.
-        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName Copyright -Value "(c) 2019-$( (Get-Date).Year ) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved."
+        Update-Metadata -Path $env:BHPSModuleManifest -PropertyName Copyright -Value "(c) 2019-$( (Get-Date).Year ) $(Get-Metadata -Path $env:BHPSModuleManifest -PropertyName Author). All rights reserved." @Verbose
     } catch {
         throw $_
     }
 }
 
-Task Deploy -Depends Build {
+Task Docs -Depends Build {
     if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
         # Create new markdown and XML help files.
-        Write-Host -Object "Building new function documentation" -ForegroundColor Yellow
+        Write-Host -Object 'Building new function documentation' -ForegroundColor Yellow
         if ((Test-Path -Path "$($env:BHProjectPath)\docs") -eq $false) {
             New-Item -Path $env:BHProjectPath -Name 'docs' -ItemType Directory
         }
-        Import-Module -Name "$env:BHProjectPath\$($env:BHProjectName)" -Force
-        New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\docs\' -Force
-        New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force
+        Import-Module "$env:BHProjectPath\$($env:BHProjectName)" -Force -Global @Verbose
+        New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\docs\' -Force @Verbose
+        New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force @Verbose
         Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
         Copy-Item -Path '.\CHANGELOG.md' -Destination 'docs\CHANGELOG.md'
         Copy-Item -Path '.\CONTRIBUTING.md' -Destination 'docs\CONTRIBUTING.md'
+    } else {
+        Write-Host -Object "Skipping building docs because `n" +
+        Write-Host -Object "`t* You are on $($env:BHBranchName) and not master branch. `n"
+    }
+}
 
+Task Deploy -Depends Docs {
+    if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
         # Publish the new version to the PowerShell Gallery
         try {
             Invoke-PSDeploy @Verbose
@@ -126,14 +128,14 @@ Task Deploy -Depends Build {
             Name            = "v$($NewVersion) Release of $($env:BHProjectName)"
             ReleaseText     = $ChangeLog | Out-String
         }
-        Publish-GithubRelease @GHReleaseSplat
+        Publish-GithubRelease @GHReleaseSplat @Verbose
 
         # Publish the new version back to Master on GitHub
         try {
             # Set up a path to the git.exe cmd, import posh-git to give us control over git, and then push changes to GitHub
             # Note that "update version" is included in the appveyor.yml file's "skip a build" regex to avoid a loop
             $env:Path += ";$env:ProgramFiles\Git\cmd"
-            Import-Module posh-git -ErrorAction Stop
+            Import-Module posh-git -ErrorAction Stop @Verbose
             git checkout master
             git add --all
             git status
@@ -146,8 +148,8 @@ Task Deploy -Depends Build {
             throw $_
         }
     } else {
-        "Skipping deployment: To deploy, ensure that...`n" +
-        "`t* You are in a known build system (Current: $env:BHBuildSystem)`n" +
-        "`t* You are committing to the master branch (Current: $env:BHBranchName) `n"
+        Write-Host -Object "Skipping deployment: To deploy, ensure that...`n" +
+        Write-Host -Object "`t* You are in a known build system (Current: $env:BHBuildSystem)`n" +
+        Write-Host -Object "`t* You are committing to the master branch (Current: $env:BHBranchName) `n"
     }
 }
