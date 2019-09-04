@@ -27,7 +27,7 @@ FormatTaskName "-------------------------------- {0} ---------------------------
 Task Init {
     # Line break for readability in AppVeyor console
     Write-Host -Object ''
-    Write-Host -Object "Build System Details:"
+    Write-Host -Object 'Build System Details:'
     Get-Item env:BH*
     Write-Output -InputObject "`n"
 }
