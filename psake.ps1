@@ -89,7 +89,7 @@ Task Docs -Depends Build {
         if ((Test-Path -Path "$($env:BHProjectPath)\docs") -eq $false) {
             New-Item -Path $env:BHProjectPath -Name 'docs' -ItemType Directory
         }
-        Import-Module "$env:BHProjectPath\$($env:BHProjectName)" -Force -Global @Verbose
+        Import-Module $env:BHPSModuleManifest -Force -Global @Verbose
         New-MarkdownHelp -Module $($env:BHProjectName) -OutputFolder '.\docs\' -Force @Verbose
         New-ExternalHelp -Path '.\docs\' -OutputPath ".\en-US\" -Force @Verbose
         Copy-Item -Path '.\README.md' -Destination 'docs\index.md'
