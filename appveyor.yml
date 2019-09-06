@@ -24,20 +24,21 @@ pull_requests:
 # Publish to PowerShell Gallery with this key
 environment:
   NuGetApiKey:
-    secure: {NUGETAPIKEY}
+    secure: { NUGETAPIKEY }
   GitHubKey:
-    secure: {GITHUB_PERSONAL_ACCESS_TOKEN}
+    secure: { GITHUB_PERSONAL_ACCESS_TOKEN }
 
-# Install NuGet to interact with the PowerShell Gallery
+# Install InvokeBuild and PSDepend that handles dependencies.
 install:
-  - ps: . .\install.ps1
+  - ps: Install-Module -Name InvokeBuild -Force
+  - ps: Install-Module -Name PSDepend -Force
 
 test_script:
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GitHubKey):x-oauth-basic@github.com`n"
   - git config --global user.email "first.last@domain.com"
   - git config --global user.name "First Last"
-  - git config --global core.autocrlf true
+  - git config --global core.autocrlf false
   - git config --global core.safecrlf false
-  - ps: Write-Host -Object "--- Calling build.ps1 ---"
-  - ps: . .\build.ps1
+  - ps: Write-Host -Object "------------------ Invoke-Build ------------------"
+  - ps: Invoke-Build
