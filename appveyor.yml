@@ -32,6 +32,7 @@ environment:
 install:
   - ps: Install-Module -Name InvokeBuild -Force
   - ps: Install-Module -Name PSDepend -Force
+  - ps: Invoke-PSDepend -Force
 
 test_script:
   - git config --global credential.helper store
