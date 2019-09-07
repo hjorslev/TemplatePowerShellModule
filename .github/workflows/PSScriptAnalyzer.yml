@@ -1,0 +1,18 @@
+name: PSScriptAnalyzer checks
+on: [push]
+jobs:
+  lint:
+    name: PSScriptAnalyzer checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: PSScriptAnalyzer checks
+        uses: devblackops/github-action-psscriptanalyzer@v2.0.0
+        with:
+          rootPath: ModuleName
+          settingsPath: PSScriptAnalyzerSettings.psd1
+          sendComment: true
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          failOnErrors: true
+          failOnWarnings: true
+          failOnInfos: true
