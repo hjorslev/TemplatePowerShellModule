@@ -24,9 +24,9 @@ pull_requests:
 # Publish to PowerShell Gallery with this key
 environment:
   NuGetApiKey:
-    secure: { NUGETAPIKEY }
+    secure: {NUGETAPIKEY}
   GitHubKey:
-    secure: { GITHUB_PERSONAL_ACCESS_TOKEN }
+    secure: {GITHUB_PERSONAL_ACCESS_TOKEN}
 
 # Install InvokeBuild and PSDepend that handles dependencies.
 install:
