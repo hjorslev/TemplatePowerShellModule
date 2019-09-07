@@ -29,6 +29,8 @@ and deploys the module to the [PowerShell Gallery](https://www.powershellgallery
 
 ### Change variables
 
+Change all mentions of *ModuleName* to the name of your module, e.g. SteamPS.
+
 Change the name in *LICENSE.md* if you plan using it.
 
 Adjust Manifest.
