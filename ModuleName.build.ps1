@@ -1,15 +1,19 @@
 Set-BuildEnvironment -ErrorAction SilentlyContinue
 
+# Synopsis: Initializing
 Add-BuildTask Init {
     # Line break for readability in AppVeyor console
     Write-Host -Object ''
     Write-Host -Object 'Build System Details:'
     Write-Output -InputObject $PSVersionTable
+    Write-Host -Object "`n"
     Get-Item env:BH*
+    Write-Host -Object "`n"
+    Invoke-Build ?
     Write-Host -Object "`n"
 }
 
-# Synopsis: Test
+# Synopsis: Pester Tests
 Add-BuildTask Test {
     # Invoke Pester to run all of the unit tests, then save the results into XML in order to populate the AppVeyor tests section
     # If any of the tests fail, consider the pipeline failed
@@ -23,7 +27,8 @@ Add-BuildTask Test {
     Remove-Item -Path "$($env:BHProjectPath)\Tests\TestsResults.xml" -Force
 }
 
-Add-BuildTask Build {
+# Synopsis: Build manifest
+Add-BuildTask BuildManifest {
     # We're going to add 1 to the revision value since a new commit has been merged to Master
     # This means that the major / minor / build values will be consistent across GitHub and the Gallery
     try {
@@ -67,7 +72,8 @@ Add-BuildTask Build {
     }
 }
 
-Add-BuildTask Docs {
+# Synopsis: Build docs
+Add-BuildTask BuildDocs {
     if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
         # Create new markdown and XML help files.
         Write-Host -Object 'Building new function documentation' -ForegroundColor Yellow
@@ -87,10 +93,11 @@ Add-BuildTask Docs {
     }
 }
 
+# Synopsis: Deploy to PSGallery
 Add-BuildTask DeployPSGallery {
     # Publish the new version to the PowerShell Gallery
     try {
-        #Invoke-PSDeploy
+        Invoke-PSDeploy
         Write-Host -Object "$($env:BHProjectName) PowerShell Module version $($NewVersion) published to the PowerShell Gallery." -ForegroundColor Cyan
     } catch {
         # Sad panda; it broke
@@ -99,6 +106,7 @@ Add-BuildTask DeployPSGallery {
     }
 }
 
+# Synopsis: Deploy to Github Releases
 Add-BuildTask DeployGHRelease {
     # Get latest changelog and publish it to GitHub Releases.
     $ChangeLog = Get-Content -Path '.\CHANGELOG.md'
@@ -118,6 +126,7 @@ Add-BuildTask DeployGHRelease {
     Publish-GithubRelease @GHReleaseSplat
 }
 
+# Synopsis: Push changes to GitHub
 Add-BuildTask PushChangesGitHub {
     # Publish the new version back to Master on GitHub
     try {
@@ -144,7 +153,7 @@ Add-BuildTask PushChangesGitHub {
 
 if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
     # Synopsis: Entire build pipeline
-    Add-BuildTask . Init, Test, Build, Docs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
+    Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
 } else {
     Add-BuildTask . Init, Test
     Write-Host -Object "Skipping deployment: To deploy, ensure that...`n"
