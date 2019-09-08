@@ -9,8 +9,6 @@ Add-BuildTask Init {
     Write-Host -Object "`n"
     Get-Item env:BH*
     Write-Host -Object "`n"
-    Invoke-Build ?
-    Write-Host -Object "`n"
 }
 
 # Synopsis: Pester Tests
