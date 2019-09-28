@@ -49,9 +49,9 @@ and add it to appveyor.yml by replacing `{NUGETAPIKEY}`.
 with scope to edit repos.
 7. [Encrypt token at AppVeyor](https://ci.appveyor.com/tools/encrypt)
 and add it to appveyor.yml by replacing `{GITHUB_PERSONAL_ACCESS_TOKEN}`.
-8. AppVeyor will now monitor your master branch and deploy a new version to
-the [PowerShell Gallery](https://www.powershellgallery.com)
-when it detects a new commit.
+8. AppVeyor will now monitor your branches.
+9. Deploy to PS Gallery and GitHub releases using keyword *!deploy* in your
+commit message.
 
 ### Change version
 

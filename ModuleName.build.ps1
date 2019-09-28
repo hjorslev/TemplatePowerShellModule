@@ -149,7 +149,7 @@ Add-BuildTask PushChangesGitHub {
     }
 }
 
-if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' ) {
+if ($env:BHBuildSystem -ne 'Unknown' -and $env:BHBranchName -eq 'master' -and $env:BHCommitMessage -like "*!deploy*") {
     # Synopsis: Entire build pipeline
     Add-BuildTask . Init, Test, BuildManifest, BuildDocs, DeployPSGallery, DeployGHRelease, PushChangesGitHub
 } else {
