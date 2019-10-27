@@ -21,6 +21,9 @@ skip_commits:
 pull_requests:
   do_not_increment_build_number: true
 
+# Do not build when a tag is created
+skip_tags: true
+
 # Publish to PowerShell Gallery with this key
 environment:
   NuGetApiKey:
