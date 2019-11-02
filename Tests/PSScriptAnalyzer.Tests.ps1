@@ -9,9 +9,7 @@ foreach ($PowerShellFile in $PowerShellFiles) {
         foreach ($Rule in $ScriptAnalyzerRules) {
             It "Should pass $Rule" {
                 if ($Analysis.RuleName -contains $Rule) {
-
-                    $Analysis | Where-Object RuleName -eq $Rule -OutVariable Failures | Out-Default
-
+                    $Analysis | Where-Object -FilterScript { $_.RuleName -eq $Rule } -OutVariable Failures | Out-Default
                     $Failures.Count | Should -Be 0
                 }
             } # It
