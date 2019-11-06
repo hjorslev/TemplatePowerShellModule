@@ -3,7 +3,7 @@
 Import-Module "$($env:BHModulePath)\$($env:BHProjectName).psm1"
 
 Describe "$($ModuleName) Comment Based Help" -Tags "Module" {
-    $FunctionsList = (Get-ChildItem -Path "$($env:BHModulePath)\Public").BaseName
+    $FunctionsList = (Get-ChildItem -Path "$($env:BHModulePath)\Public\*.ps1" -Recurse).BaseName | Sort-Object
 
     foreach ($Function in $FunctionsList) {
         # Retrieve the Help of the function
