@@ -1,4 +1,4 @@
-# TemplatePowerShellModule
+﻿# TemplatePowerShellModule
 
 ## Module Status
 

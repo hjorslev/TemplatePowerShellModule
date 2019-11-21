@@ -1,4 +1,4 @@
-# Use the PowerShell extension setting `powershell.scriptAnalysis.settingsPath` to get the current workspace
+﻿# Use the PowerShell extension setting `powershell.scriptAnalysis.settingsPath` to get the current workspace
 # to use this PSScriptAnalyzerSettings.psd1 file to configure code analysis in Visual Studio Code.
 # This setting is configured in the workspace's `.vscode\settings.json`.
 #

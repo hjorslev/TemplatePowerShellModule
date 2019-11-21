@@ -1,4 +1,4 @@
-Set-BuildEnvironment -ErrorAction SilentlyContinue
+﻿Set-BuildEnvironment -ErrorAction SilentlyContinue
 
 # Synopsis: Initializing
 Add-BuildTask Init {
