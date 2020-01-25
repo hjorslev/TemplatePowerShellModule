@@ -1,10 +1,9 @@
 ﻿$ScriptAnalyzerRules = Get-ScriptAnalyzerRule
 $PowerShellFiles = Get-ChildItem $env:BHProjectPath -Recurse -Filter *.ps*1
-$ExcludeRules = 'PSAvoidUsingWriteHost', 'PSAvoidUsingInvokeExpression'
 
 foreach ($PowerShellFile in $PowerShellFiles) {
     Describe "File $($PowerShellFile) should not produce any PSScriptAnalyzer warnings" {
-        $Analysis = Invoke-ScriptAnalyzer -Path $PowerShellFile.FullName -ExcludeRule $ExcludeRules
+        $Analysis = Invoke-ScriptAnalyzer -Path $PowerShellFile.FullName -Settings "$($env:BHProjectPath)\PSScriptAnalyzerSettings.psd1"
 
         foreach ($Rule in $ScriptAnalyzerRules) {
             It "Should pass $Rule" {
