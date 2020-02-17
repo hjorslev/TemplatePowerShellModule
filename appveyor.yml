@@ -14,6 +14,10 @@ version: 0.1.0.{build}
 # Or if various strings are found in the commit message: updated readme, update readme, update docs, update version, update appveyor
 skip_commits:
   files:
+    - .vscode/*
+    - appveyor.yml
+    - CHANGELOG.md
+    - CONTRIBUTING.md
     - README.md
   message: /update action.*|updated readme.*|update readme.*|update changelog.*|update docs.*|update version.*|set theme.*|update appveyor.*/
 
