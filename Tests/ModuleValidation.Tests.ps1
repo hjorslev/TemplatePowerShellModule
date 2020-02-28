@@ -1,6 +1,7 @@
 ﻿
-$PublicFiles = @(Get-ChildItem -Path "$($env:BHProjectPath)\Public\*.ps1" -ErrorAction SilentlyContinue)
+$PublicFiles = @(Get-ChildItem -Path "$($env:BHModulePath)\Public\*.ps1" -ErrorAction SilentlyContinue)
 $ModuleInformation = Import-Metadata -Path $env:BHPSModuleManifest # Cmdlet from module Configuration.
+$ExportedFunctions = (Import-Module -Name $env:BHPSModuleManifest -Force -ErrorAction Stop -PassThru).ExportedFunctions.Values.Name
 
 Describe "General Project Validation: $($env:BHProjectName)" {
     Context "Project Files" {
