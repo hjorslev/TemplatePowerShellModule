@@ -19,6 +19,7 @@ skip_commits:
     - CHANGELOG.md
     - CONTRIBUTING.md
     - README.md
+    - .editorconfig
   message: /update action.*|updated readme.*|update readme.*|update changelog.*|update docs.*|update version.*|set theme.*|update appveyor.*/
 
 # There's no need to alter the build number for a Pull Request (PR) since they don't modify anything
